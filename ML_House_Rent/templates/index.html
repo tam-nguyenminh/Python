@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Price Prediction</title>
+    <style>
+        .resized-image {
+            width: 1200px; /* Set desired width */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
+</head>
+<body>
+    <h1>Room for Rent Price Prediction in Ho Chi Minh city</h1>
+    <h2>About this dataset: 23 districts, 5832 posts, from 2019 to 2022 (time has little impact on the price)<br><br>
+    </h2>
+
+    <form action="/predict" method="post">
+        <label for="district">Select District:</label>
+        <select name="district" id="district">
+            {% for district in districts %}
+                <option value="{{ district }}">{{ district }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="acreage">Enter Acreage:</label>
+        <input type="text" id="acreage" name="acreage">
+        <br><br>
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if result %}
+        <h2>Estimated Price: {{ result }} million VND (with district={{ district }} and acreage={{ acreage }}m2) </h2>
+    {% endif %}
+
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% endif %}
+    <br><br>
+
+    <h2>Image of Info: Average price by district in Ho Chi Minh</h2>
+    <h3>District 1 has the highest price on average compared to other districts, while other far districts (củ chi, hóc môn) are among the cheapest.
+    </h3>
+    <img src="{{ url_for('static', filename='Average_price_by_district.png') }}" alt="Average_price_by_district" class="resized-image">
+</body>
+</html>
